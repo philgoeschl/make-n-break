@@ -7,7 +7,6 @@ public class GrabAndDrop : MonoBehaviour
     // Start is called before the first frame update
     GameObject grabbedObject;
     float grabbedObjectSize;
-
     GameObject GetRaycastHoverObject(float range)
     {
         Vector3 position = gameObject.transform.position;
@@ -26,6 +25,8 @@ public class GrabAndDrop : MonoBehaviour
             return;
         grabbedObject = grabObject;
         grabbedObjectSize = grabObject.GetComponent<Renderer>().bounds.size.magnitude;
+        // disable script for rotating the selectedObject
+        gameObject.GetComponent<Rotate>().enabled = false;
     }
 
     bool CanGrab(GameObject candidate)
@@ -42,13 +43,15 @@ public class GrabAndDrop : MonoBehaviour
             grabbedObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
         grabbedObject = null;
+        // enable script for rotating the selectedObject
+        gameObject.GetComponent<Rotate>().enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Print name of GameObject which is in distance of up to 20 units
-        Debug.Log(GetRaycastHoverObject(20));
+        //Debug.Log("GRAB AND DROP SCRIPT"+GetRaycastHoverObject(100));
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
